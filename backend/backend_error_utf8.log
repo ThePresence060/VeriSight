@@ -1,0 +1,74 @@
+﻿python.exe : INFO:    
+ Will watch for 
+changes in these 
+directories: ['C:\\Far
+zi\\Hackathon_Jims\\ba
+ckend']
+At line:1 char:38
++ ... ms\backend; & ".
+.\.venv\Scripts\python
+.exe" -m uvicorn 
+main:app --rel ...
++                 ~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (INFO:        
+ Will ...Jims\\bac    
+kend']:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+INFO:     Uvicorn 
+running on 
+http://127.0.0.1:8000 
+(Press CTRL+C to quit)
+INFO:     Started 
+reloader process 
+[6644] using 
+StatReload
+INFO:     Started 
+server process [31664]
+INFO:     Waiting for 
+application startup.
+2026-03-17 02:40:22 | 
+INFO     | main | 
+\U0001f680 Starting 
+GenNews Backend...
+2026-03-17 02:40:22 | 
+INFO     | main | 
+\u2705 Database 
+initialized
+2026-03-17 02:40:22 | 
+INFO     | 
+apscheduler.scheduler 
+| Adding job 
+tentatively -- it 
+will be properly 
+scheduled when the 
+scheduler starts
+2026-03-17 02:40:22 | 
+INFO     | 
+apscheduler.scheduler 
+| Added job "scheduled
+_fetch_and_process" 
+to job store "default"
+2026-03-17 02:40:22 | 
+INFO     | 
+apscheduler.scheduler 
+| Scheduler started
+2026-03-17 02:40:22 | 
+INFO     | 
+services.scheduler | 
+Scheduler started ù 
+running every 12 hours
+2026-03-17 02:40:22 | 
+INFO     | main | 
+\u2705 Scheduler 
+started
+INFO:     Application 
+startup complete.

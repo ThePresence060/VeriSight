@@ -1,0 +1,173 @@
+# GenNews Backend — Implementation Plan
+
+Build the complete Python/FastAPI backend for the GenNews news credibility platform, covering news aggregation, AI-powered analysis, story clustering, credibility scoring, and REST API.
+
+## Proposed Changes
+
+### Project Scaffolding
+
+#### [NEW] [requirements.txt](file:///c:/Farzi/Hackathon_Jims/backend/requirements.txt)
+Python dependencies: `fastapi`, `uvicorn`, `sqlalchemy`, `aiosqlite`, `feedparser`, `requests`, `beautifulsoup4`, `scikit-learn`, `sentence-transformers`, `transformers`, `torch`, `apscheduler`, `python-dotenv`, `httpx`
+
+#### [NEW] [.env.example](file:///c:/Farzi/Hackathon_Jims/backend/.env.example)
+Template for environment variables: `NEWS_API_KEY`, `LLM_MODEL_NAME` (default `Qwen/Qwen2.5-0.5B-Instruct`), `DATABASE_URL`, `FETCH_INTERVAL_HOURS`, `RSS_FEEDS` list.
+
+#### [NEW] [config.py](file:///c:/Farzi/Hackathon_Jims/backend/config.py)
+Central settings loaded from `.env` using `pydantic-settings` — API keys, DB path, scheduler interval, model names, RSS feeds list.
+
+---
+
+### Database Layer
+
+#### [NEW] [database.py](file:///c:/Farzi/Hackathon_Jims/backend/database.py)
+SQLAlchemy async engine + session factory for SQLite. `init_db()` to create tables.
+
+#### [NEW] [models.py](file:///c:/Farzi/Hackathon_Jims/backend/models.py)
+SQLAlchemy ORM models:
+- **Article**: id, title, url, author, publisher_name, published_at, original_text, cleaned_text, keywords (JSON), category (JSON with confidence), misinfo_risk_score, llm_analysis (JSON: claims, tone, bias, framing), embedding (BLOB), cluster_id (FK), is_original_source, processed_at, status
+- **StoryCluster**: id, title, summary, credibility_score, risk_indicators (JSON), created_at, updated_at, original_source_id (FK)
+- **Publisher**: id, name, reputation_score, article_count, last_updated
+- **FetchLog**: id, started_at, completed_at, articles_fetched, errors_count, status
+
+---
+
+### News Fetcher (Req 1 & 2)
+
+#### [NEW] [services/news_fetcher.py](file:///c:/Farzi/Hackathon_Jims/backend/services/news_fetcher.py)
+- `fetch_rss_feeds(feeds: list[str])` — parse with `feedparser`, extract title/link/published/summary/source
+- `fetch_newsapi(api_key, query)` — call NewsAPI `/everything` endpoint
+- `run_collection_cycle()` — orchestrator that calls both fetchers, stores raw articles, logs to `FetchLog`
+- Error handling: per-source try/except, log failures, continue
+
+#### [NEW] [services/scheduler.py](file:///c:/Farzi/Hackathon_Jims/backend/services/scheduler.py)
+APScheduler `BackgroundScheduler` that triggers `run_collection_cycle()` every N hours (configurable).
+
+---
+
+### Text Preprocessor (Req 3)
+
+#### [NEW] [services/text_preprocessor.py](file:///c:/Farzi/Hackathon_Jims/backend/services/text_preprocessor.py)
+- `clean_text(html)` — BeautifulSoup to strip HTML, normalize whitespace/encoding
+- `extract_keywords(text)` — TF-IDF via scikit-learn `TfidfVectorizer` on text, return top-15 keywords
+- `preprocess_article(article)` — orchestrator that cleans + extracts, updates article record
+
+---
+
+### AI Analysis Pipeline (Req 4, 5, 6)
+
+#### [NEW] [services/category_classifier.py](file:///c:/Farzi/Hackathon_Jims/backend/services/category_classifier.py)
+- Zero-shot classification using `transformers` pipeline with `facebook/bart-large-mnli`
+- Categories: politics, technology, health, business, sports, entertainment, science, world news
+- Returns `{category: str, confidence: float, is_uncertain: bool}` (uncertain if < 0.6)
+
+#### [NEW] [services/fake_news_detector.py](file:///c:/Farzi/Hackathon_Jims/backend/services/fake_news_detector.py)
+- Heuristic + model approach:
+  - Sensationalism score (exclamation marks, caps ratio, clickbait patterns)
+  - Source citation check (presence of quotes, named sources)
+  - Text-classification using a pretrained model or zero-shot
+- Returns `{risk_score: float, indicators: list[str], is_high_risk: bool}`
+
+#### [NEW] [services/llm_analyzer.py](file:///c:/Farzi/Hackathon_Jims/backend/services/llm_analyzer.py)
+- Uses `transformers` pipeline with Qwen model (`Qwen/Qwen2.5-0.5B-Instruct`)
+- Prompt engineering to extract: key claims, narrative framing, emotional tone, bias indicators
+- 30-second timeout, fallback on failure
+- Returns structured JSON `{claims: list, framing: str, tone: str, bias_indicators: list}`
+
+---
+
+### Similarity & Clustering (Req 7 & 8)
+
+#### [NEW] [services/similarity_engine.py](file:///c:/Farzi/Hackathon_Jims/backend/services/similarity_engine.py)
+- `sentence-transformers` (`all-MiniLM-L6-v2`) to generate embeddings
+- Cosine similarity for pairwise comparison (headline + body weighted)
+- Store embeddings in article records
+
+#### [NEW] [services/news_clusterer.py](file:///c:/Farzi/Hackathon_Jims/backend/services/news_clusterer.py)
+- Threshold-based agglomerative clustering (similarity > 0.75)
+- Assign article to highest-average-similarity cluster when multiple match
+- Identify earliest article as original source
+- Update existing clusters with new articles
+
+---
+
+### Credibility Scoring (Req 9, 10, 11)
+
+#### [NEW] [services/credibility_engine.py](file:///c:/Farzi/Hackathon_Jims/backend/services/credibility_engine.py)
+- **Publisher Reputation**: initialize at 0.5, weighted average of last 100 articles' misinfo scores
+- **Credibility Score**: weighted formula combining:
+  - Publisher reputation avg (30%)
+  - Inverse misinfo risk avg (30%)
+  - Source diversity factor (25%)
+  - Consistency of claims (15%)
+  - Single-source penalty: multiply by 0.7
+- **Risk Indicators**: generate flags for single-source, low reputation, high misinfo, narrative inconsistency
+
+---
+
+### Processing Pipeline
+
+#### [NEW] [services/pipeline.py](file:///c:/Farzi/Hackathon_Jims/backend/services/pipeline.py)
+Orchestrates the full processing flow for a batch of articles:
+1. Text Preprocessing
+2. Category Classification
+3. Fake News Detection
+4. LLM Analysis
+5. Embedding Generation
+6. Clustering
+7. Credibility Scoring
+
+Each step has error handling — failures are logged, processing continues.
+
+---
+
+### FastAPI REST API (Req 13, 20)
+
+#### [NEW] [main.py](file:///c:/Farzi/Hackathon_Jims/backend/main.py)
+FastAPI app entry point with CORS, lifespan (init DB, start scheduler), include routers.
+
+#### [NEW] [routers/articles.py](file:///c:/Farzi/Hackathon_Jims/backend/routers/articles.py)
+- `GET /api/articles` — list with filters: category, date_range, credibility_min/max, publisher, search keyword, pagination
+- `GET /api/articles/{id}` — single article with full analysis
+
+#### [NEW] [routers/clusters.py](file:///c:/Farzi/Hackathon_Jims/backend/routers/clusters.py)
+- `GET /api/clusters` — list clusters with credibility scores, pagination
+- `GET /api/clusters/{id}` — cluster detail with all member articles, coverage map data, narrative differences
+
+#### [NEW] [routers/publishers.py](file:///c:/Farzi/Hackathon_Jims/backend/routers/publishers.py)
+- `GET /api/publishers` — list with reputation scores
+- `GET /api/publishers/{id}` — publisher detail with stats
+
+#### [NEW] [routers/health.py](file:///c:/Farzi/Hackathon_Jims/backend/routers/health.py)
+- `GET /api/health` — overall system health
+- Individual component status checks
+
+#### [NEW] [schemas.py](file:///c:/Farzi/Hackathon_Jims/backend/schemas.py)
+Pydantic response models for all API endpoints.
+
+---
+
+## User Review Required
+
+> [!IMPORTANT]
+> **AI Models**: The plan uses HuggingFace models that will be downloaded on first run. The Qwen model (`Qwen2.5-0.5B-Instruct`) is ~1GB. The sentence-transformers model (`all-MiniLM-L6-v2`) is ~80MB. The zero-shot model (`bart-large-mnli`) is ~1.6GB. These require significant disk space and initial download time.
+
+> [!IMPORTANT]
+> **NewsAPI Key**: You'll need a free API key from [newsapi.org](https://newsapi.org/) to fetch articles beyond RSS feeds. The system will work with RSS feeds alone, but NewsAPI adds coverage.
+
+> [!WARNING]
+> **GPU vs CPU**: The models will run on CPU by default. Processing will be slower without a GPU. For a hackathon demo, consider using smaller batch sizes.
+
+## Verification Plan
+
+### Automated Tests
+1. **Server Startup Test**: Run `cd c:\Farzi\Hackathon_Jims\backend && python -m uvicorn main:app --host 0.0.0.0 --port 8000` and verify the server starts without errors
+2. **Health Endpoint**: `curl http://localhost:8000/api/health` — should return `200 OK` with component statuses
+3. **API Endpoints**: Use browser subagent to test:
+   - `GET /api/articles` returns valid JSON
+   - `GET /api/clusters` returns valid JSON
+   - `GET /api/publishers` returns valid JSON
+   - `GET /docs` shows Swagger UI
+
+### Manual Verification
+1. Trigger a manual fetch cycle via `POST /api/fetch` endpoint and verify articles appear in database
+2. Check logs for any processing errors

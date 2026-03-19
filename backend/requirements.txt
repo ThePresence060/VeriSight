@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+aiosqlite
+feedparser
+requests
+httpx
+beautifulsoup4
+scikit-learn
+sentence-transformers
+apscheduler
+python-dotenv
+pydantic

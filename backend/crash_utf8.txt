@@ -1,0 +1,410 @@
+﻿python.exe : 
+2026-03-17 02:52:48 | 
+INFO     | httpx | 
+HTTP Request: POST htt
+p://localhost:11434/ap
+i/generate "HTTP/1.1 
+200 OK"
+At line:1 char:1
++ & "..\.venv\Scripts\
+python.exe" -c 
+"import traceback; 
+from fastapi.te ...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (2026-03-17   
+  02:5...TTP/1.1 2    
+00 OK":String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+2026-03-17 02:52:48 | 
+INFO     | services.ca
+tegory_classifier | 
+Loading zero-shot 
+classification 
+model...
+2026-03-17 02:52:49 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/fa
+cebook/bart-large-mnli
+/resolve/main/config.j
+son "HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:49 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/facebook/bart-large-m
+nli/d7645e127eaf1aefc7
+862fd59a17a5aa8558b8ce
+/config.json 
+"HTTP/1.1 200 OK"
+
+Loading weights:   
+0%|          | 0/515 
+[00:00<?, ?it/s]
+Loading weights:  
+47%|####6     | 
+241/515 [00:00<00:00, 
+2408.61it/s]
+Loading weights: 
+100%|##########| 
+515/515 [00:00<00:00, 
+2593.98it/s]
+2026-03-17 02:52:50 | 
+INFO     | httpx | 
+HTTP Request: GET http
+s://huggingface.co/api
+/models/facebook/bart-
+large-mnli/tree/main/a
+dditional_chat_templat
+es?recursive=false&exp
+and=false "HTTP/1.1 
+404 Not Found"
+2026-03-17 02:52:50 | 
+INFO     | httpx | 
+HTTP Request: GET http
+s://huggingface.co/api
+/models/facebook/bart-
+large-mnli/tree/main?r
+ecursive=true&expand=f
+alse "HTTP/1.1 200 OK"
+2026-03-17 02:52:51 | 
+INFO     | services.ca
+tegory_classifier | 
+Classification model 
+loaded.
+2026-03-17 02:52:56 | 
+INFO     | services.si
+milarity_engine | 
+Loading embedding 
+model: 
+all-MiniLM-L6-v2
+2026-03-17 02:52:56 | 
+INFO     | sentence_tr
+ansformers.SentenceTra
+nsformer | Use 
+pytorch device_name: 
+cpu
+2026-03-17 02:52:56 | 
+INFO     | sentence_tr
+ansformers.SentenceTra
+nsformer | Load 
+pretrained 
+SentenceTransformer: 
+all-MiniLM-L6-v2
+2026-03-17 02:52:56 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/modules.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits 
+and faster downloads.
+2026-03-17 02:52:56 | 
+WARNING  | huggingface
+_hub.utils._http | 
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits 
+and faster downloads.
+2026-03-17 02:52:56 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/modules
+.json "HTTP/1.1 200 
+OK"
+2026-03-17 02:52:56 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/config_sentence_
+transformers.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:56 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/config_
+sentence_transformers.
+json "HTTP/1.1 200 OK"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/config_sentence_
+transformers.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/config_
+sentence_transformers.
+json "HTTP/1.1 200 OK"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/README.md 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/README.
+md "HTTP/1.1 200 OK"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/modules.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/modules
+.json "HTTP/1.1 200 
+OK"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/sentence_bert_co
+nfig.json "HTTP/1.1 
+307 Temporary 
+Redirect"
+2026-03-17 02:52:57 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/sentenc
+e_bert_config.json 
+"HTTP/1.1 200 OK"
+2026-03-17 02:52:58 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/adapter_config.j
+son "HTTP/1.1 404 Not 
+Found"
+2026-03-17 02:52:58 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/config.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:58 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/config.
+json "HTTP/1.1 200 OK"
+
+Loading weights:   
+0%|          | 0/103 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 
+103/103 [00:00<00:00, 
+2033.25it/s]
+[1mBertModel LOAD 
+REPORT[0m from: sente
+nce-transformers/all-M
+iniLM-L6-v2
+Key                   
+  | Status     |  | 
+----------------------
+--+------------+--+-
+embeddings.position_id
+s | [38;5;208mUNEXPEC
+TED[0m |  | 
+
+[3mNotes:
+- [38;5;208mUNEXPECTE
+D[0m[3m	:can be 
+ignored when loading 
+from different 
+task/architecture; 
+not ok if you expect 
+identical arch.[0m
+2026-03-17 02:52:58 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/config.json 
+"HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:58 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/config.
+json "HTTP/1.1 200 OK"
+2026-03-17 02:52:59 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/tokenizer_config
+.json "HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:52:59 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/tokeniz
+er_config.json 
+"HTTP/1.1 200 OK"
+2026-03-17 02:52:59 | 
+INFO     | httpx | 
+HTTP Request: GET http
+s://huggingface.co/api
+/models/sentence-trans
+formers/all-MiniLM-L6-
+v2/tree/main/additiona
+l_chat_templates?recur
+sive=false&expand=fals
+e "HTTP/1.1 404 Not 
+Found"
+2026-03-17 02:52:59 | 
+INFO     | httpx | 
+HTTP Request: GET http
+s://huggingface.co/api
+/models/sentence-trans
+formers/all-MiniLM-L6-
+v2/tree/main?recursive
+=true&expand=false 
+"HTTP/1.1 200 OK"
+2026-03-17 02:53:00 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/se
+ntence-transformers/al
+l-MiniLM-L6-v2/resolve
+/main/1_Pooling/config
+.json "HTTP/1.1 307 
+Temporary Redirect"
+2026-03-17 02:53:00 | 
+INFO     | httpx | 
+HTTP Request: HEAD htt
+ps://huggingface.co/ap
+i/resolve-cache/models
+/sentence-transformers
+/all-MiniLM-L6-v2/c974
+5ed1d9f207416be6d2e6f8
+de32d1f16199bf/1_Pooli
+ng%2Fconfig.json 
+"HTTP/1.1 200 OK"
+2026-03-17 02:53:00 | 
+INFO     | httpx | 
+HTTP Request: GET http
+s://huggingface.co/api
+/models/sentence-trans
+formers/all-MiniLM-L6-
+v2 "HTTP/1.1 200 OK"
+2026-03-17 02:53:00 | 
+INFO     | services.si
+milarity_engine | 
+Embedding model 
+loaded.
+
+Batches:   0%|        
+  | 0/1 [00:00<?, 
+?it/s]
+Batches: 
+100%|##########| 1/1 
+[00:00<00:00,  
+5.75it/s]
+Batches: 
+100%|##########| 1/1 
+[00:00<00:00,  
+5.73it/s]
+2026-03-17 02:53:00 | 
+INFO     | httpx | 
+HTTP Request: POST htt
+p://testserver/api/art
+icles/analyze 
+"HTTP/1.1 200 OK"

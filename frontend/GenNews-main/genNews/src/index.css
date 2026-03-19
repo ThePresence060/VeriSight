@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* New Obsidian Palette */
+  --color-obsidian-bg: #121212;
+  --color-obsidian-panel: #ffffff0a;
+  --color-obsidian-surface: #ffffff14;
+  --color-obsidian-accent: #ffffff20;
+  --color-obsidian-border: #ffffff1f;
+}
+
+@layer base {
+  body {
+    @apply bg-[#121212] text-gray-200 font-sans antialiased;
+    background-image: radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.015), transparent 30%),
+      radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.01), transparent 30%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom utilities for the premium glass aesthetic shown in the mockups */
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] shadow-2xl;
+  }
+
+  .glass-button-white {
+    @apply bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:bg-gray-100 transition-all;
+  }
+
+  .neon-border-white {
+    @apply border-transparent box-content;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
